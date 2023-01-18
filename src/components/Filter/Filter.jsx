@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import propTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import styles from './Filter.module.scss';
