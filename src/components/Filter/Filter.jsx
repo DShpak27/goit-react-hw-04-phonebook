@@ -1,12 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import styles from './Filter.module.scss';
 
+function useLocalStorage(localStorageKeyName = 'data') {
+    const [data, setData] = useState(() => {
+        return (
+            JSON.parse(window.localStorage.getItem(localStorageKeyName)) ?? ''
+        );
+    }); // деструктуруємо змінну та метод для її зміни, задаємо початкове значення для filter, тепер filter буде станом функціонального компоненту внутрі якого буде визвана функція useLocalStorage
+
+    useEffect(() => {
+        window.localStorage.setItem(localStorageKeyName, JSON.stringify(data));
+        // eslint-disable-next-line
+    }, [data]);
+
+    return [data, setData];
+}
+
 function Filter({ onFilterChange }) {
-    const [filter, setFilter] = useState(() => {
-        return JSON.parse(window.localStorage.getItem('filter')) ?? '';
-    });
+    const [filter, setFilter] = useLocalStorage('filter');
 
     const filterInputId = nanoid();
 
